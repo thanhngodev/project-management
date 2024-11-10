@@ -1,4 +1,5 @@
+import React from 'react';
 
 export default function Home() {
-  return <>Test</>
+  return <>Test</>;
 }
