@@ -4,6 +4,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import { API_VERSION } from "./constants/common.const";
+
+/* ROUTE IMPORTS */
+import projectRoutes from "./routes/projectRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -21,8 +25,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to API server Project Management");
 });
 
+app.use(`${API_VERSION.V1}/projects`, projectRoutes);
+
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on part ${port}`);
+  console.log(`Server running on port ${port}`);
 });
