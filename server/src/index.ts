@@ -8,6 +8,7 @@ import { API_VERSION } from "./constants/common.const";
 
 /* ROUTE IMPORTS */
 import projectRoutes from "./routes/projectRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(`${API_VERSION.V1}/projects`, projectRoutes);
+app.use(`${API_VERSION.V1}/tasks`, taskRoutes);
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
