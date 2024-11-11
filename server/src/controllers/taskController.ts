@@ -67,6 +67,7 @@ export const createTask = async (
       .json({ message: `Error creating a task: ${error.message}` });
   }
 };
+
 export const updateTaskStatus = async (
   req: Request,
   res: Response
@@ -87,6 +88,7 @@ export const updateTaskStatus = async (
     res.status(500).json({ message: `Error updating task: ${error.message}` });
   }
 };
+
 export const getUserTasks = async (
   req: Request,
   res: Response
