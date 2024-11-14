@@ -32,30 +32,29 @@ const Navbar = () => {
           />
         </div>
       </div>
+      
       {/* Icons */}
       <div className="flex items-center">
         <button
-          //   onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
+          onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
           className={
-            "rounded p-2 hover:bg-gray-100"
-            // isDarkMode
-            //   ? `rounded p-2 dark:hover:bg-gray-700`
-            //   : `rounded p-2 hover:bg-gray-100`
+            "rounded p-2 hover:bg-gray-100" + isDarkMode
+              ? `rounded p-2 dark:hover:bg-gray-700`
+              : `rounded p-2 hover:bg-gray-100`
           }
         >
-          {/* {isDarkMode ? ( */}
-          <Sun className="h-6 w-6 cursor-pointer dark:text-white" />
-          {/* ) : (
+          {isDarkMode ? (
+            <Sun className="h-6 w-6 cursor-pointer dark:text-white" />
+          ) : (
             <Moon className="h-6 w-6 cursor-pointer dark:text-white" />
-          )} */}
+          )}
         </button>
         <Link
           href="/settings"
           className={
-            "h-min w-min rounded p-2 hover:bg-gray-100"
-            //   isDarkMode
-            //     ? `h-min w-min rounded p-2 dark:hover:bg-gray-700`
-            //     : `h-min w-min rounded p-2 hover:bg-gray-100`
+            "h-min w-min rounded p-2 hover:bg-gray-100" + isDarkMode
+              ? `h-min w-min rounded p-2 dark:hover:bg-gray-700`
+              : `h-min w-min rounded p-2 hover:bg-gray-100`
           }
         >
           <Settings className="h-6 w-6 cursor-pointer dark:text-white" />
