@@ -43,11 +43,11 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
         <div className="flex flex-1 items-center gap-2 md:gap-4">
           {PROJECT_TABS.map((tab) => {
             const IconComponent = tab.icon;
-
             return (
               <TabButton
                 key={tab.name}
                 name={tab.name}
+                code={tab.code}
                 icon={<IconComponent className="h-5 w-5" />}
                 setActiveTab={setActiveTab}
                 activeTab={activeTab}

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Clock, Grid3x3, List, Table } from "lucide-react";
 
 export const TAG_PROJECTS = "Projects";
@@ -31,21 +32,32 @@ export const SIDEBAR_CLASS_NAMES =
 export const INPUT_STYLES =
   "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
-export const PROJECT_TABS = [
-  {
+export const GROUPED_PROJECT_TABS = {
+  BOARD: {
     name: "Board",
+    code: "BOARD",
     icon: Grid3x3,
   },
-  {
+  LIST: {
     name: "List",
+    code: "LIST",
     icon: List,
   },
-  {
+  TIME_LINE: {
     name: "Timeline",
+    code: "TIME_LINE",
     icon: Clock,
   },
-  {
+  TABLE: {
     name: "Table",
+    code: "TABLE",
     icon: Table,
   },
+};
+
+export const PROJECT_TABS = [
+  GROUPED_PROJECT_TABS.BOARD,
+  GROUPED_PROJECT_TABS.LIST,
+  GROUPED_PROJECT_TABS.TIME_LINE,
+  GROUPED_PROJECT_TABS.TABLE,
 ];

@@ -1,12 +1,19 @@
 type TabButtonProps = {
   name: string;
   icon: React.ReactNode;
+  code: string;
   setActiveTab: (tabName: string) => void;
   activeTab: string;
 };
 
-const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
-  const isActive = activeTab === name;
+const TabButton = ({
+  name,
+  icon,
+  code,
+  setActiveTab,
+  activeTab,
+}: TabButtonProps) => {
+  const isActive = activeTab === code;
 
   return (
     <button
@@ -15,7 +22,7 @@ const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
           ? "text-blue-600 after:scale-x-100 dark:text-white"
           : "after:scale-x-0"
       }`}
-      onClick={() => setActiveTab(name)}
+      onClick={() => setActiveTab(code)}
     >
       {icon}
       {name}
