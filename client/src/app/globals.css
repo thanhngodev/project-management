@@ -63,3 +63,35 @@ body,
   width: 0px;
   height: 0px;
 }
+
+/* styles.css */
+
+@keyframes modalEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.modal-enter {
+  animation: modalEnter 0.23s ease-out forwards;
+}
+
+.modal-exit {
+  animation: modalExit 0.23s ease-in forwards;
+}

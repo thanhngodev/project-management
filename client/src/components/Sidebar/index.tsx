@@ -41,7 +41,7 @@ const Sidebar = () => {
     (state) => state.global.isSidebarCollapsed,
   );
 
-  const sidebarClassNames = `${SIDEBAR_CLASS_NAMES}${isSidebarCollapsed ? "w-0 -translate-x-full opacity-0" : "w-64 translate-x-0"}`;
+  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white transition-transform duration-700 ${isSidebarCollapsed ? "w-0 -translate-x-full opacity-0 " : "w-64 translate-x-0"}`;
 
   return (
     <div className={sidebarClassNames}>
