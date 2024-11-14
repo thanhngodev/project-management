@@ -8,17 +8,18 @@ type Props = {
   id?: string | null;
 };
 const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
-//   const [createTask, { isLoading }] = useCreateTaskMutation();
+  //   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-//   const [status, setStatus] = useState<Status>(Status.ToDo);
-//   const [priority, setPriority] = useState<Priority>(Priority.Backlog);
+  //   const [status, setStatus] = useState<Status>(Status.ToDo);
+  //   const [priority, setPriority] = useState<Priority>(Priority.Backlog);
   const [tags, setTags] = useState("");
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
   const [projectId, setProjectId] = useState("");
+
   const handleSubmit = async () => {
     if (!title || !authorUserId || !(id !== null || projectId)) return;
     const formattedStartDate = formatISO(new Date(startDate), {
@@ -40,13 +41,16 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
     //   projectId: id !== null ? Number(id) : Number(projectId),
     // });
   };
+
   const isFormValid = () => {
     return title && authorUserId && !(id !== null || projectId);
   };
+
   const selectStyles =
     "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
   const inputStyles =
     "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Create New Task">
       <form
