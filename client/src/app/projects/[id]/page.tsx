@@ -3,6 +3,10 @@ import { useState } from "react";
 import ProjectHeader from "../ProjectHeader";
 import BoardView from "../BoardView";
 import ListView from "../ListView";
+import { GROUPED_PROJECT_TABS } from "@/constants/common.const";
+import Timeline from "../TimelineView";
+
+const groupedProject = GROUPED_PROJECT_TABS;
 
 type Props = {
   params: { id: string };
@@ -10,19 +14,26 @@ type Props = {
 
 const Project = ({ params }: Props) => {
   const { id } = params;
-  const [activeTab, setActiveTab] = useState("Board");
+  const [activeTab, setActiveTab] = useState<string>(groupedProject.BOARD.code);
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
   return (
     <div>
-      <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <ProjectHeader
+        activeTab={activeTab}
+        setActiveTab={(tabName) => setActiveTab(tabName)}
+      />
 
-      {activeTab === "Board" && (
+      {activeTab === groupedProject.BOARD.code && (
         <BoardView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
 
-      {activeTab === "List" && (
+      {activeTab === groupedProject.LIST.code && (
         <ListView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
+
+      {activeTab === groupedProject.TIME_LINE.code && (
+        <Timeline id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
     </div>
   );
