@@ -1,48 +1,56 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux/redux";
-import { SIDEBAR_CLASS_NAMES } from "@/constants/common.const";
-// import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-// import { useGetProjectsQuery } from "@/state/api";
+import { MENU_NAV } from "@/constants/menus.const";
+import { useGetProjectsQuery } from "@/state/api";
 import {
   AlertCircle,
   AlertOctagon,
   AlertTriangle,
   Briefcase,
-  ChevronDown,
-  ChevronUp,
-  Home,
   Layers3,
   LockIcon,
-  LucideIcon,
-  Search,
-  Settings,
   ShieldAlert,
-  User,
-  Users,
   X,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SidebarLink from "../SidebarLink";
-import { MENU_NAV } from "@/constants/menus.const";
 import SidebarLinkSub from "../SidebarLinkSub";
-import { useGetProjectsQuery } from "@/state/api";
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
-  const menuNav = MENU_NAV;
-  const { data: projects } = useGetProjectsQuery();
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
+  const { data: projects, isError } = useGetProjectsQuery();
 
-  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white transition-transform duration-700 ${isSidebarCollapsed ? "w-0 -translate-x-full opacity-0 " : "w-64 translate-x-0"}`;
+  // Sidebar classes optimized with condition
+  const sidebarClassNames = useMemo(
+    () =>
+      `fixed flex flex-col h-full justify-between shadow-xl transition-all duration-300 z-40 dark:bg-black overflow-y-auto bg-white ${
+        isSidebarCollapsed
+          ? "w-0 -translate-x-full opacity-0"
+          : "w-64 translate-x-0"
+      }`,
+    [isSidebarCollapsed],
+  );
+
+  // Memoized project links
+  const projectLinks = useMemo(
+    () =>
+      projects
+        ? projects.map((project) => ({
+            icon: Briefcase,
+            label: project.name,
+            href: `/projects/${project.id}`,
+          }))
+        : [],
+    [projects],
+  );
 
   return (
     <div className={sidebarClassNames}>
@@ -52,17 +60,14 @@ const Sidebar = () => {
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             TaskFlowHub
           </div>
-          {isSidebarCollapsed ? null : (
-            <button
-              className="py-3"
-              onClick={() => {
-                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
-              }}
-            >
-              <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
-            </button>
-          )}
+          <button
+            className="py-3"
+            onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
+          >
+            <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
+          </button>
         </div>
+        
         {/* TEAM */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           <Image src="/logo.png" alt="Logo" width={40} height={40} />
@@ -78,7 +83,7 @@ const Sidebar = () => {
         </div>
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
-          {menuNav.map((menuNavItem, idx: number) => (
+          {MENU_NAV.map((menuNavItem, idx) => (
             <SidebarLink
               key={idx}
               icon={menuNavItem.icon}
@@ -88,20 +93,14 @@ const Sidebar = () => {
           ))}
         </nav>
         {/* PROJECTS LINKS */}
-        <SidebarLinkSub
-          toggleShow={() => setShowProjects((prev) => !prev)}
-          isOpen={showProjects}
-          items={
-            projects?.map((project) => {
-              return {
-                icon: Briefcase,
-                label: project.name,
-                href: `/projects/${project.id}`,
-              };
-            }) || []
-          }
-          label="Projects"
-        />
+        {projectLinks && projectLinks.length > 0 && (
+          <SidebarLinkSub
+            toggleShow={() => setShowProjects((prev) => !prev)}
+            isOpen={showProjects}
+            items={projectLinks}
+            label="Projects"
+          />
+        )}
 
         {/* PRIORITIES LINKS */}
         <SidebarLinkSub
@@ -117,6 +116,13 @@ const Sidebar = () => {
           label="Priority"
         />
       </div>
+
+      {/* Error Handling for Projects */}
+      {isError && (
+        <div className="px-6 py-3 text-sm text-red-500">
+          Failed to load projects. Please try again.
+        </div>
+      )}
     </div>
   );
 };
