@@ -5,7 +5,7 @@ import SidebarLink from "../SidebarLink";
 interface SidebarLinkSubProps {
   toggleShow: () => void;
   isOpen: boolean;
-  items: { label: string; href: string; icon: LucideIcon }[];
+  items: any[];
   label: string;
 }
 
@@ -40,7 +40,7 @@ const SidebarLinkSub: React.FC<SidebarLinkSubProps> = ({
       <div
         ref={contentRef}
         style={{ height: `${height}px` }}
-        className="overflow-hidden transition-height duration-[320ms] ease-in-out"
+        className="transition-height overflow-hidden duration-[320ms] ease-in-out"
       >
         {items.map((item, index) => (
           <SidebarLink
