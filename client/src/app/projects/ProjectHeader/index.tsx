@@ -8,7 +8,7 @@ import {
     Share2
 } from "lucide-react";
 import { useState } from "react";
-import ModalNewProject from "../ModalNewProject";
+import ModalNewProject from "../../../components/ModalNewProject";
 
 type Props = {
   activeTab: string;

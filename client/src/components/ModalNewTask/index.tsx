@@ -1,162 +1,190 @@
-import Modal from "@/components/Modal";
-// import { Priority, Status, useCreateTaskMutation } from "@/state/api";
-import React, { useState } from "react";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import { formatISO } from "date-fns";
+import { toast } from "react-toastify";
+import Modal from "@/components/Modal";
+import { useCreateTaskMutation } from "@/state/api";
+import { Priority, Status } from "@/enums/api.enum";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   id?: string | null;
 };
+
 const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
-  //   const [createTask, { isLoading }] = useCreateTaskMutation();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  //   const [status, setStatus] = useState<Status>(Status.ToDo);
-  //   const [priority, setPriority] = useState<Priority>(Priority.Backlog);
-  const [tags, setTags] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [authorUserId, setAuthorUserId] = useState("");
-  const [assignedUserId, setAssignedUserId] = useState("");
-  const [projectId, setProjectId] = useState("");
+  const [createTask, { isLoading }] = useCreateTaskMutation();
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      status: Status.ToDo,
+      priority: Priority.Backlog,
+      tags: "",
+      startDate: "",
+      dueDate: "",
+      authorUserId: "",
+      assignedUserId: "",
+      projectId: "",
+    },
+  });
 
-  const handleSubmit = async () => {
-    if (!title || !authorUserId || !(id !== null || projectId)) return;
-    const formattedStartDate = formatISO(new Date(startDate), {
-      representation: "complete",
-    });
-    const formattedDueDate = formatISO(new Date(dueDate), {
-      representation: "complete",
-    });
-    // await createTask({
-    //   title,
-    //   description,
-    //   status,
-    //   priority,
-    //   tags,
-    //   startDate: formattedStartDate,
-    //   dueDate: formattedDueDate,
-    //   authorUserId: parseInt(authorUserId),
-    //   assignedUserId: parseInt(assignedUserId),
-    //   projectId: id !== null ? Number(id) : Number(projectId),
-    // });
+  const handleModalClose = () => {
+    reset(); // Clear data
+    onClose(); // Close modal
   };
 
-  const isFormValid = () => {
-    return title && authorUserId && !(id !== null || projectId);
+  const onSubmit = async (data: any) => {
+    try {
+      const formattedData = {
+        ...data,
+        startDate: formatISO(new Date(data.startDate), {
+          representation: "complete",
+        }),
+        dueDate: formatISO(new Date(data.dueDate), {
+          representation: "complete",
+        }),
+        authorUserId: parseInt(data.authorUserId),
+        assignedUserId: parseInt(data.assignedUserId),
+        projectId: id !== null ? Number(id) : Number(data.projectId),
+      };
+
+      await createTask(formattedData);
+      toast.success("Task created successfully!");
+      handleModalClose(); // Clear data and close modal after successful submission
+    } catch (error) {
+      toast.error("Failed to create task. Please try again.");
+      console.error("Error creating task:", error);
+    }
   };
 
-  const selectStyles =
-    "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
   const inputStyles =
     "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+  const selectStyles =
+    "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} name="Create New Task">
+    <Modal isOpen={isOpen} onClose={handleModalClose} name="Create New Task">
       <form
         className="mt-4 space-y-6"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <input
           type="text"
           className={inputStyles}
           placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          {...register("title", { required: "Title is required" })}
         />
+        {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+
         <textarea
           className={inputStyles}
           placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          {...register("description")}
         />
-        {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
           <select
             className={selectStyles}
-            value={status}
-            onChange={(e) =>
-              setStatus(Status[e.target.value as keyof typeof Status])
-            }
+            {...register("status")}
           >
-            <option value="">Select Status</option>
             <option value={Status.ToDo}>To Do</option>
             <option value={Status.WorkInProgress}>Work In Progress</option>
             <option value={Status.UnderReview}>Under Review</option>
             <option value={Status.Completed}>Completed</option>
           </select>
+
           <select
             className={selectStyles}
-            value={priority}
-            onChange={(e) =>
-              setPriority(Priority[e.target.value as keyof typeof Priority])
-            }
+            {...register("priority")}
           >
-            <option value="">Select Priority</option>
             <option value={Priority.Urgent}>Urgent</option>
             <option value={Priority.High}>High</option>
             <option value={Priority.Medium}>Medium</option>
             <option value={Priority.Low}>Low</option>
             <option value={Priority.Backlog}>Backlog</option>
           </select>
-        </div> */}
+        </div>
+
         <input
           type="text"
           className={inputStyles}
           placeholder="Tags (comma separated)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
+          {...register("tags")}
         />
+
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <input
-            type="date"
-            className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+          <Controller
+            control={control}
+            name="startDate"
+            render={({ field }) => (
+              <input
+                type="date"
+                className={inputStyles}
+                {...field}
+              />
+            )}
           />
-          <input
-            type="date"
-            className={inputStyles}
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+          <Controller
+            control={control}
+            name="dueDate"
+            render={({ field }) => (
+              <input
+                type="date"
+                className={inputStyles}
+                {...field}
+              />
+            )}
           />
         </div>
+
         <input
           type="text"
           className={inputStyles}
           placeholder="Author User ID"
-          value={authorUserId}
-          onChange={(e) => setAuthorUserId(e.target.value)}
+          {...register("authorUserId", { required: "Author User ID is required" })}
         />
+        {errors.authorUserId && (
+          <p className="text-red-500">{errors.authorUserId.message}</p>
+        )}
+
         <input
           type="text"
           className={inputStyles}
           placeholder="Assigned User ID"
-          value={assignedUserId}
-          onChange={(e) => setAssignedUserId(e.target.value)}
+          {...register("assignedUserId")}
         />
+
         {id === null && (
           <input
             type="text"
             className={inputStyles}
-            placeholder="ProjectId"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
+            placeholder="Project ID"
+            {...register("projectId", { required: "Project ID is required" })}
           />
         )}
-        {/* <button
+        {errors.projectId && (
+          <p className="text-red-500">{errors.projectId.message}</p>
+        )}
+
+        <button
           type="submit"
           className={`focus-offset-2 mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-            !isFormValid() || isLoading ? "cursor-not-allowed opacity-50" : ""
+            isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
-          disabled={!isFormValid() || isLoading}
+          disabled={isLoading}
         >
           {isLoading ? "Creating..." : "Create Task"}
-        </button> */}
+        </button>
       </form>
     </Modal>
   );
 };
+
 export default ModalNewTask;
