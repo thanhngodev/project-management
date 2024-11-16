@@ -35,15 +35,17 @@ const Task = ({ task }: TaskProps) => {
         isDragging ? "opacity-50" : "opacity-100"
       }`}
     >
-      {task.attachments && task.attachments.length > 0 && (
-        <Image
-          src={`/${task.attachments[0].fileURL}`}
-          alt={task.attachments[0].fileName}
-          width={400}
-          height={200}
-          className="h-auto w-full rounded-t-md"
-        />
-      )}
+      {task.attachments &&
+        task.attachments.length > 0 &&
+        task.attachments[0].fileURL && (
+          <Image
+            src={`/${task.attachments[0].fileURL}`}
+            alt={task.attachments[0].fileName}
+            width={400}
+            height={200}
+            className="h-auto w-full rounded-t-md"
+          />
+        )}
       <div className="p-4 md:p-6">
         <div className="flex items-start justify-between">
           <div className="flex flex-1 flex-wrap items-center gap-2">

@@ -24,7 +24,7 @@ const TaskColumn = ({
       isOver: !!monitor.isOver(),
     }),
   }));
-  const tasksCount = tasks.filter((task) => task.status === status).length;
+  const tasksFiltered = tasks.filter((task) => task.status === status);
   const statusColor: { [key: string]: string } = {
     [TASK_STATUS.TO_DO]: "#2563EB",
     [TASK_STATUS.WORK_IN_PROGRESS]: "#059669",
@@ -51,7 +51,7 @@ const TaskColumn = ({
               className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary"
               style={{ width: "1.5rem", height: "1.5rem" }}
             >
-              {tasksCount}
+              {tasksFiltered.length}
             </span>
           </h3>
           <div className="flex items-center gap-1">
@@ -67,11 +67,9 @@ const TaskColumn = ({
           </div>
         </div>
       </div>
-      {tasks
-        .filter((task) => task.status === status)
-        .map((task) => (
-          <Task key={task.id} task={task} />
-        ))}
+      {tasksFiltered.map((task, index) => (
+        <Task key={`${index}`} task={task} />
+      ))}
     </div>
   );
 };
