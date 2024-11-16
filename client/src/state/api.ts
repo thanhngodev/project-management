@@ -6,6 +6,7 @@ import { getTasks } from "./endpoints/getTasks";
 import { getTasksByUser } from "./endpoints/getTasksByUser";
 import { createTask } from "./endpoints/createTask";
 import { updateTaskStatus } from "./endpoints/updateTaskStatus";
+import { search } from "./endpoints/search";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
@@ -18,6 +19,7 @@ export const api = createApi({
     getTasksByUser: getTasksByUser(build),
     createTask: createTask(build),
     updateTaskStatus: updateTaskStatus(build),
+    search: search(build),
   }),
 });
 
@@ -28,4 +30,5 @@ export const {
   useGetTasksByUserQuery,
   useCreateTaskMutation,
   useUpdateTaskStatusMutation,
+  useSearchQuery,
 } = api;
