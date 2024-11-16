@@ -1,22 +1,34 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux/redux";
-import { setIsSidebarCollapsed } from "@/state";
 import { MENU_NAV } from "@/constants/menus.const";
+import { setIsSidebarCollapsed } from "@/state";
 import { useGetProjectsQuery } from "@/state/api";
 import {
   AlertCircle,
   AlertOctagon,
   AlertTriangle,
+  BellRing,
   Briefcase,
+  Clock,
+  Info,
   Layers3,
+  List,
   LockIcon,
   ShieldAlert,
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import SidebarLink from "../SidebarLink";
 import SidebarLinkSub from "../SidebarLinkSub";
+
+const priorityLinks = [
+  { label: "Urgent", href: "/priority/urgent", icon: AlertTriangle },
+  { label: "High", href: "/priority/high", icon: BellRing },
+  { label: "Medium", href: "/priority/medium", icon: Info },
+  { label: "Low", href: "/priority/low", icon: Clock },
+  { label: "Backlog", href: "/priority/backlog", icon: List },
+];
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
@@ -67,7 +79,7 @@ const Sidebar = () => {
             <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
           </button>
         </div>
-        
+
         {/* TEAM */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           <Image src="/logo.png" alt="Logo" width={40} height={40} />
@@ -106,13 +118,7 @@ const Sidebar = () => {
         <SidebarLinkSub
           toggleShow={() => setShowPriority((prev) => !prev)}
           isOpen={showPriority}
-          items={[
-            { label: "Urgent", href: "/priority/urgent", icon: AlertCircle },
-            { label: "High", href: "/priority/high", icon: ShieldAlert },
-            { label: "Medium", href: "/priority/medium", icon: AlertTriangle },
-            { label: "Low", href: "/priority/low", icon: AlertOctagon },
-            { label: "Backlog", href: "/priority/backlog", icon: Layers3 },
-          ]}
+          items={priorityLinks}
           label="Priority"
         />
       </div>

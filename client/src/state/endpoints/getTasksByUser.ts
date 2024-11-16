@@ -4,7 +4,7 @@ import { EndpointBuilder } from "@reduxjs/toolkit/query/react";
 
 export const getTasksByUser = (build: EndpointBuilder<any, any, any>) =>
   build.query<ITask[], number>({
-    query: (userId) => `${API_PATH}tasks/user/${userId}`,
+    query: (userId) => `${API_PATH}/tasks/user/${userId}`,
     providesTags: (result, error, userId) =>
       result
         ? result.map(({ id }) => ({ type: TAG_TASKS, id }))
