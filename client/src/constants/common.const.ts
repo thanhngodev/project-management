@@ -1,3 +1,4 @@
+import { GridColDef } from "@mui/x-data-grid";
 import _ from "lodash";
 import { Clock, Grid3x3, List, Table } from "lucide-react";
 
