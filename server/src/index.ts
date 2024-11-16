@@ -10,6 +10,7 @@ import { API_VERSION } from "./constants/common.const";
 import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import searchRoutes from "./routes/searchRoutes";
+import userRoutes from "./routes/userRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use(`${API_VERSION.V1}/projects`, projectRoutes);
 app.use(`${API_VERSION.V1}/tasks`, taskRoutes);
 app.use(`${API_VERSION.V1}/search`, searchRoutes);
+app.use(`${API_VERSION.V1}/users`, userRoutes);
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
