@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { ChevronDown, ChevronUp, LucideIcon } from "lucide-react";
 import SidebarLink from "../SidebarLink";
 
+const ITEM_HEIGHT = 42;
+const MAX_VISIBLE_ITEMS = 5;
+
 interface SidebarLinkSubProps {
   toggleShow: () => void;
   isOpen: boolean;
@@ -24,6 +27,8 @@ const SidebarLinkSub: React.FC<SidebarLinkSubProps> = ({
     }
   }, [isOpen]);
 
+  const visibleHeight = Math.min(items.length, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT;
+
   return (
     <div>
       <button
@@ -39,17 +44,28 @@ const SidebarLinkSub: React.FC<SidebarLinkSubProps> = ({
       </button>
       <div
         ref={contentRef}
-        style={{ height: `${height}px` }}
-        className="transition-height overflow-hidden duration-[320ms] ease-in-out"
+        style={{
+          height: isOpen ? `${visibleHeight}px` : "0px",
+        }}
+        className={`transition-height overflow-hidden duration-[320ms] ease-in-out ${
+          isOpen && items.length > MAX_VISIBLE_ITEMS ? "overflow-y-auto" : ""
+        }`}
       >
-        {items.map((item, index) => (
-          <SidebarLink
-            key={index}
-            icon={item.icon}
-            label={item.label}
-            href={item.href}
-          />
-        ))}
+        <div
+          style={{
+            maxHeight: `${visibleHeight}px`,
+          }}
+          className="custom-scrollbar"
+        >
+          {items.map((item, index) => (
+            <SidebarLink
+              key={index}
+              icon={item.icon}
+              label={item.label}
+              href={item.href}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

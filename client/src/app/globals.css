@@ -95,3 +95,25 @@ body,
 .modal-exit {
   animation: modalExit 0.23s ease-in forwards;
 }
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
