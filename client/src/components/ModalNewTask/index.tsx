@@ -36,8 +36,8 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   });
 
   const handleModalClose = () => {
-    reset(); // Clear data
-    onClose(); // Close modal
+    reset();
+    onClose();
   };
 
   const onSubmit = async (data: any) => {
@@ -71,10 +71,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
 
   return (
     <Modal isOpen={isOpen} onClose={handleModalClose} name="Create New Task">
-      <form
-        className="mt-4 space-y-6"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="mt-4 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           className={inputStyles}
@@ -90,20 +87,14 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
         />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <select
-            className={selectStyles}
-            {...register("status")}
-          >
+          <select className={selectStyles} {...register("status")}>
             <option value={Status.ToDo}>To Do</option>
             <option value={Status.WorkInProgress}>Work In Progress</option>
             <option value={Status.UnderReview}>Under Review</option>
             <option value={Status.Completed}>Completed</option>
           </select>
 
-          <select
-            className={selectStyles}
-            {...register("priority")}
-          >
+          <select className={selectStyles} {...register("priority")}>
             <option value={Priority.Urgent}>Urgent</option>
             <option value={Priority.High}>High</option>
             <option value={Priority.Medium}>Medium</option>
@@ -124,22 +115,14 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
             control={control}
             name="startDate"
             render={({ field }) => (
-              <input
-                type="date"
-                className={inputStyles}
-                {...field}
-              />
+              <input type="date" className={inputStyles} {...field} />
             )}
           />
           <Controller
             control={control}
             name="dueDate"
             render={({ field }) => (
-              <input
-                type="date"
-                className={inputStyles}
-                {...field}
-              />
+              <input type="date" className={inputStyles} {...field} />
             )}
           />
         </div>
@@ -148,7 +131,9 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
           type="text"
           className={inputStyles}
           placeholder="Author User ID"
-          {...register("authorUserId", { required: "Author User ID is required" })}
+          {...register("authorUserId", {
+            required: "Author User ID is required",
+          })}
         />
         {errors.authorUserId && (
           <p className="text-red-500">{errors.authorUserId.message}</p>
