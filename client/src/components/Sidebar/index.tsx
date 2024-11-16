@@ -29,12 +29,13 @@ import React, { useState } from "react";
 import SidebarLink from "../SidebarLink";
 import { MENU_NAV } from "@/constants/menus.const";
 import SidebarLinkSub from "../SidebarLinkSub";
+import { useGetProjectsQuery } from "@/state/api";
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
   const menuNav = MENU_NAV;
-  //   const { data: projects } = useGetProjectsQuery();
+  const { data: projects } = useGetProjectsQuery();
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -90,24 +91,18 @@ const Sidebar = () => {
         <SidebarLinkSub
           toggleShow={() => setShowProjects((prev) => !prev)}
           isOpen={showProjects}
-          items={[
-            { label: "Urgent", href: "/project/urgent", icon: AlertCircle },
-            { label: "High", href: "/project/high", icon: ShieldAlert },
-            { label: "Medium", href: "/project/medium", icon: AlertTriangle },
-            { label: "Low", href: "/project/low", icon: AlertOctagon },
-            { label: "Backlog", href: "/project/backlog", icon: Layers3 },
-          ]}
+          items={
+            projects?.map((project) => {
+              return {
+                icon: Briefcase,
+                label: project.name,
+                href: `/projects/${project.id}`,
+              };
+            }) || []
+          }
           label="Projects"
         />
-        {/* {showProjects &&
-          projects?.map((project) => (
-            <SidebarLink
-              key={project.id}
-              icon={Briefcase}
-              label={project.name}
-              href={`/projects/${project.id}`}
-            />
-          ))} */}
+
         {/* PRIORITIES LINKS */}
         <SidebarLinkSub
           toggleShow={() => setShowPriority((prev) => !prev)}
