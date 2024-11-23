@@ -1,4 +1,5 @@
 import { ITask } from "@/interfaces/api.interface";
+import { PUBLIC_URL } from "@/state";
 import { format } from "date-fns";
 import Image from "next/image";
 
@@ -15,7 +16,7 @@ const TaskCard = ({ task }: Props) => {
           <div className="flex flex-wrap">
             {task.attachments && task.attachments.length > 0 && (
               <Image
-                src={`/${task.attachments[0].fileURL}`}
+                src={`${PUBLIC_URL}/${task.attachments[0].fileURL}`}
                 alt={task.attachments[0].fileName}
                 width={400}
                 height={200}

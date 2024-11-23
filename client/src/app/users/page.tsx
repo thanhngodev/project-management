@@ -7,6 +7,7 @@ import { useAppSelector } from "../redux/redux";
 import Header from "@/components/Header";
 import CustomToolbar from "@/components/CustomToolbar";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { PUBLIC_URL } from "@/state";
 
 const columns: GridColDef[] = [
   { field: "userId", headerName: "ID", width: 100 },
@@ -19,7 +20,7 @@ const columns: GridColDef[] = [
       <div className="flex h-full w-full items-center justify-center">
         <div className="h-9 w-9">
           <Image
-            src={`/${params.value}`}
+            src={`${PUBLIC_URL}/${params.value}`}
             alt={params.row.username}
             width={100}
             height={50}

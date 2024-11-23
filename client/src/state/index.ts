@@ -19,3 +19,5 @@ export const globalSlice = createSlice({
 });
 export const { setIsSidebarCollapsed, setIsDarkMode } = globalSlice.actions;
 export default globalSlice.reducer;
+
+export const PUBLIC_URL = process.env.NEXT_PUBLIC_AWS_S3;
