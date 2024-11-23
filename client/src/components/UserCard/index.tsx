@@ -1,4 +1,5 @@
 import { IUser } from "@/interfaces/api.interface";
+import { PUBLIC_URL } from "@/state";
 import Image from "next/image";
 import React from "react";
 
@@ -11,7 +12,7 @@ const UserCard = ({ user }: Props) => {
     <div className="flex items-center rounded border p-4 shadow">
       {user.profilePictureUrl && (
         <Image
-          src={`/p1.jpeg`}
+          src={`${PUBLIC_URL}/p1.jpeg`}
           alt="profile picture"
           width={32}
           height={32}
